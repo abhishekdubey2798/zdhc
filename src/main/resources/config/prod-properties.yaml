@@ -1,0 +1,50 @@
+#Prod Properties
+
+https:
+  host: "0.0.0.0" 
+  private.port: "8092"
+  path: "/v1.0/api/*"
+  
+api:
+  id: "17748468"
+
+token:
+  authenticationKey: "![mE6wj/6gQ3BP8vgQCtKnHnwvHJhDx1LKZC9P+fPm06mt7QOZ2U2NmJxQvyVcP6Pg]"
+  host: "www.my-aip.com"
+  basepath: "/Gateway/rest/oauth"
+  path: "/tokenbykey"
+  tspath: "ts-prod.jks"
+  password: "![Z2nAldVRRS26MrSlGayyxw==]"
+  
+ZDHC:
+  host: "www.my-aip.com"
+  basepath: "/Gateway/rest/v2"
+  
+incheck:
+  basepath: "/Gateway/rest/v3"
+  
+subscriptionStatus:
+  path: "/subscriptionStatus"
+  
+activateInCheckSubscription:
+  path: "/activateInCheckSubscription"
+  
+renewInCheckSubscription:
+  path: "/renewInCheckSubscription"
+  
+userOrganizations:
+  path: "/userOrganizations"
+  
+formulators:
+   getpath: "/formulators"
+   postpath: "/formulators"
+   
+incheckReport:
+   postpath: "/incheckReport"
+   getpath: "/incheckReport"
+   
+products:
+  getpath: "/products"
+  postpath: "/products"
+  
+  

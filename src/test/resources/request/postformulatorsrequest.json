@@ -1,0 +1,12 @@
+{
+  "name": "Intertek",
+  "phone": "string",
+  "address": "string",
+  "cityTown": "string",
+  "stateProvince": "string",
+  "country": "India",
+  "postalCode": "string",
+  "contactName": "string",
+  "contactEmail": "string",
+  "higgID": "string"
+}

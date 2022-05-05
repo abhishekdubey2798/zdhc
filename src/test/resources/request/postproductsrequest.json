@@ -1,0 +1,17 @@
+{
+  "name": "string",
+  "formulatorGUID": "string",
+  "description": "string",
+  "substrate": "string",
+  "category": "string",
+  "type": "string",
+  "otherName": "string",
+  "productCode": "string",
+  "version": "string",
+  "sdsStandard": "string",
+  "language": "string",
+  "effectiveDate": "2014-12-31",
+  "filename": "string",
+  "content": "string",
+  "uploadedByText": "string"
+}

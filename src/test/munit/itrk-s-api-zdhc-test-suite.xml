@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="itrk-s-api-zdhc-test-suite.xml" />
+	<munit:test name="itrk-s-api-zdhc-test-suite-get:\IncheckReport:itrk-s-api-zdhc-configTest" doc:id="87e591fd-c91c-4004-b012-2cdec4447696" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="3093e9f0-019e-4403-94cd-75fd65419252" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="bea9f6da-11ca-4ffb-90d1-fa2061da4e45" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="d41dd369-124a-40ae-97b0-2b40034b41b4" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get:\IncheckReport:itrk-s-api-zdhc-config" doc:id="7bcf7646-9e84-4845-b057-3a91285ea06b" name="get:\IncheckReport:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="get:\Products:itrk-s-api-zdhc-config-Test" doc:id="8f2264a8-cb55-4b3f-9a81-5a929d3412fd" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e4718332-c287-4afb-a563-bd9fe04082a0" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5bc358a6-968d-4453-b04f-dd3de0d48999" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="b09c3f69-dbc3-41a7-8901-70b89b53f08c" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="get:\Products:itrk-s-api-zdhc-config" doc:id="b08afacb-37a9-4df3-94e8-be6d3204f132" name="get:\Products:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="get:\formulators:itrk-s-api-zdhc-config-Test" doc:id="f2c3429d-84a0-4187-9813-c796f1f8d260" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ddc78e14-d913-4872-b6cf-634e73e7f7ea" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="59cadd20-29f8-45fc-9f39-4ff5ebcdcb46" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="get formulators" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="5623d53e-f735-4d52-9af2-9ced0a81e380" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="get:\formulators:itrk-s-api-zdhc-config" doc:id="86ab3a77-98a2-4c9b-accd-e8cbae4446f9" name="get:\formulators:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="get:\userOrganizations:itrk-s-api-zdhc-config-Test" doc:id="00841c57-5b59-4bd9-9d74-3c94f8702c88" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="27ff7349-1c70-4cd5-a7ca-af728c8f7cd3" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="567029b0-c142-4e08-8b8b-fbe14d4c1000" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="userOrganizations" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="81b7a252-f460-464b-b768-aa9ec3366df3" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="get:\userOrganizations:itrk-s-api-zdhc-config" doc:id="a62deaf0-b6cf-4481-9c4c-5033d56f4eaa" name="get:\userOrganizations:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="post:\IncheckReport:application\json:itrk-s-api-zdhc-config-Test" doc:id="397ddcb7-7af3-44f1-a81c-3a744f5c396c" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b6dba903-23bb-411f-b86b-aef52cbe6f7b" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="8919b294-f1bf-4386-a2c8-886847476a3d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[MunitTools::getResourceAsString("response/postincheckreportresponse.json")]' mediaType="application/json" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="e9aad9b7-1b96-416f-bd9d-9755e9ddfdbf" >
+				<munit:payload value='#[MunitTools::getResourceAsString("request/postincheckreportrequest.json")]' encoding="UTF-8" mediaType="application/json" />
+			</munit:set-event>
+			<munit:set-event doc:name="Set Event" doc:id="d7e5b2bc-4ced-4a83-8c83-eb0f6aa3b476" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="post:\IncheckReport:application\json:itrk-s-api-zdhc-config" doc:id="a2740619-2326-4d3b-ac5d-86d88b9ad73d" name="post:\incheckReport:application\json:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="post:\Products:application\json:itrk-s-api-zdhc-config-Test" doc:id="b128a8a0-fe3a-4986-befd-968d47fcab07" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="cc228380-5988-48bd-9fc2-19da389b6679" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0416956d-3609-403d-91c3-4142ec2848cb" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[MunitTools::getResourceAsString("response/postproductsresponse.json")]' mediaType="application/json" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="124c0986-bf01-442c-ae3c-f392356c4242" >
+				<munit:payload value='#[MunitTools::getResourceAsString("request/postproductsrequest.json")]' encoding="UTF-8" mediaType="application/json" />
+			</munit:set-event>
+			<munit:set-event doc:name="Set Event" doc:id="fe3d1f33-7ed0-4d1a-a086-c79515330674" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="post:\Products:application\json:itrk-s-api-zdhc-config" doc:id="cb97c665-16e7-49e9-9218-37223ac8a1a2" name="post:\products:application\json:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="post:\activateInCheckSubcription:itrk-s-api-zdhc-config-Test" doc:id="275be3f0-932b-4b33-9491-577a7bb900e6" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="23dba019-e70a-4b31-969b-57921ed4150d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="59b1ce4a-cc79-4b3f-854b-4e0578a0f6ce" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="activateInCheckSubcription" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[MunitTools::getResourceAsString("response/postactiveincheckresponse.json")]' mediaType="application/json" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="8e788e21-ef02-4f13-b61a-038693dbfad8" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="post:\activateInCheckSubcription:itrk-s-api-zdhc-config" doc:id="8ecc87ba-49c2-47d3-a7da-48687845a7da" name="post-activateInCheckSubscription-impl-flow"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="post:\formulators:application\json:itrk-s-api-zdhc-config-Test" doc:id="f2ad2e23-41ca-4748-ae2c-dffc25939e0a" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c5deafe3-4d21-4317-8746-037b43a57b1d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6d05e543-9727-43e4-bc17-a894d6968211" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[MunitTools::getResourceAsString("response/postformulatorsresponse.json")]' mediaType="application/json" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="c1c1e037-3b5d-4a1b-afaa-b816c0384921" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<munit:set-event doc:name="Set Event" doc:id="833ed3c4-3f62-466d-99ae-9491e016f353" >
+				<munit:payload value='#[MunitTools::getResourceAsString("request/postformulatorsrequest.json")]' encoding="UTF-8" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="post:\formulators:application\json:itrk-s-api-zdhc-config" doc:id="b45f663d-a082-4c40-babe-d20ed79e65bc" name="post:\formulators:application\json:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="post:\renewInCheckSubscription:itrk-s-api-zdhc-config-Test" doc:id="9cc04324-c3c5-4400-b8ad-a1fbd5d98e3a" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="37a95d59-0343-4b07-bf18-2970ea9daf7d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5940cac4-3eca-4438-8c2d-c649979e47d6" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="renewInCheckSubscription" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[MunitTools::getResourceAsString("response/postrenewincheckresponse.json")]' mediaType="application/json" encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="7f4e4501-e5c5-49f6-8477-6e77deeef835" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="post:\renewInCheckSubscription:itrk-s-api-zdhc-config" doc:id="8495c5bd-bae5-49a1-9325-e7566bf958c4" name="post:\renewInCheckSubscription:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="post:\oauth\tokenbykey:itrk-s-api-zdhc-config-Test" doc:id="189bcba4-59cd-4ef8-ad50-08ce919696d3" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="3b3666f6-b92c-4b82-8748-d3df66132f01" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="4c74b6f8-dfa1-43a5-b758-6e5a1022c2b2" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="post:\oauth\tokenbykey:itrk-s-api-zdhc-config" doc:id="198ada22-74a9-4568-9bc3-33756e87484f" name="post:\oauth\tokenbykey:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="get:\subscriptionStatus:itrk-s-api-zdhc-config-Test" doc:id="c216d80f-bf81-4668-b585-798511e1fea7" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ba1d1784-929f-4e6b-aa0d-25cbb48218ac" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="oauth_tokenbykey " attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="aeb5dd95-5ef6-4fe9-9e7d-14f5f4394ae8" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="subscriptionstatus" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="9117331e-20b0-4551-9b38-5259026f5305" >
+				<munit:payload value='{  
+    "authenticationKey": "CB183BAC40D932A3E0530100007FAD8D",
+    "UserAccessKey": "CB184497D73938D6E0530100007FD849"
+}' />
+			</munit:set-event>
+			<flow-ref doc:name="get:\subscriptionStatus:itrk-s-api-zdhc-config" doc:id="d45e02d0-1baa-4ab6-a99d-be47f29657c6" name="get:\subscriptionStatus:itrk-s-api-zdhc-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="itrk-s-api-zdhc-main-Test" doc:id="d6eb8f5b-4213-4fdd-8f94-deb736b21996" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="cfe586e3-0ace-42db-a850-2f0e29c6e65f" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="itrk-s-api-zdhc-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="itrk-s-api-zdhc-main" doc:id="fa2e24e6-c21e-4828-838d-498f101bcdd8" name="itrk-s-api-zdhc-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="itrk-s-api-zdhc-main-Test-Any" doc:id="e74f9f75-007c-43d3-a0d6-96518695418e" expectedErrorType="ANY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5b33d753-9f93-48c5-93b2-8856916be8bf" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="itrk-s-api-zdhc-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="ANY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="itrk-s-api-zdhc-main" doc:id="2ab25448-783e-44cb-aede-d0f584b1c0d7" name="itrk-s-api-zdhc-main"/>
+		</munit:execution>
+	</munit:test>
+	
+
+
+</mule>

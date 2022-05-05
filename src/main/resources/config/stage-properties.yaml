@@ -1,0 +1,50 @@
+#Stage Properties
+
+https:
+  host: "0.0.0.0" 
+  private.port: "8092"
+  path: "/v1.0/api/*"
+  
+api:
+  id: "17616000"
+
+token:
+  authenticationKey: "![4BCj5U7fP1Mo9m2e51kjacp9FTbIu0VvtGVyFLIRD/N09H8L+B/sbWhzlAAJbh4Q]"
+  host: "beta.my-aip.com"
+  basepath: "/Gateway/rest/oauth"
+  path: "/tokenbykey"
+  tspath: "ts-stage.jks"
+  password: "![Z2nAldVRRS26MrSlGayyxw==]"
+  
+ZDHC:
+  host: "beta.my-aip.com"
+  basepath: "/Gateway/rest/v2"
+  
+incheck:
+  basepath: "/Gateway/rest/v3"
+  
+subscriptionStatus:
+  path: "/subscriptionStatus"
+  
+activateInCheckSubscription:
+  path: "/activateInCheckSubscription"
+  
+renewInCheckSubscription:
+  path: "/renewInCheckSubscription"
+  
+userOrganizations:
+  path: "/userOrganizations"
+  
+formulators:
+   getpath: "/formulators"
+   postpath: "/formulators"
+   
+incheckReport:
+   postpath: "/incheckReport"
+   getpath: "/incheckReport"
+   
+products:
+  getpath: "/products"
+  postpath: "/products"
+  
+  

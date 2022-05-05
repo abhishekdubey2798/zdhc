@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:customLogger="http://www.mulesoft.org/schema/mule/customLogger" xmlns:module-process-error="http://www.mulesoft.org/schema/mule/module-process-error"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/module-process-error http://www.mulesoft.org/schema/mule/module-process-error/current/mule-module-process-error.xsd
+http://www.mulesoft.org/schema/mule/customLogger http://www.mulesoft.org/schema/mule/customLogger/current/mule-customLogger.xsd">
+	<module-process-error:config name="Module_process_error_Config" doc:name="Module-process-error Config" doc:id="b0ac13ee-11ae-4750-a5ae-7c1b7ba3391b" />
+	<error-handler name="global-error-handler-impl-flow" doc:id="6a5e2a0c-f5fa-42a9-a65d-3b139af1eb5c" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="30f0c531-0834-4ce9-b152-6df767387c5b" type="ANY">
+			<flow-ref doc:name="mule-common-error-handling-utilityFlow" doc:id="87c583cc-e93a-45dd-b90a-dc336b7b1017" name="mule-common-error-handling-utilityFlow"/>
+			<module-process-error:process-error doc:name="Process error" doc:id="8e24a0a8-84e7-474e-90cb-d31d820ce5e9" config-ref="Module_process_error_Config"/>
+			<customLogger:exception doc:name="Exception" doc:id="0a12fc83-5f67-41b1-afb1-bb319febd415" config-ref="Custom_Logger_Config" flowName="#[vars.flowName]">
+				<customLogger:error ><![CDATA[#[payload]]]></customLogger:error>
+			</customLogger:exception>
+		</on-error-propagate>
+	</error-handler>
+</mule>

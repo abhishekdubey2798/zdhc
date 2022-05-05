@@ -1,0 +1,12 @@
+app:
+  name: "itrk-s-api-zdhc"
+  version: "1.0.0"
+  
+  
+keystore:
+  filepath: "keystore.jks"
+  password: "![Z2nAldVRRS26MrSlGayyxw==]"
+  
+response.timeout: "120000"
+
+idle.timeout: "30000"

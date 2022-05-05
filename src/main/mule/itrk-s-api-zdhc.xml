@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+    <apikit:config name="itrk-s-api-zdhc-config" api="resource::4544c08b-6266-4a34-a9c6-08041e17cac6:itrk-s-api-zdhc:1.0.1:raml:zip:itrk-s-api-zdhc.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="itrk-s-api-zdhc-main">
+        <http:listener config-ref="itrk-s-api-zdhc-http-Listener" path="${https.path}">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="itrk-s-api-zdhc-config" />
+        <error-handler ref="global-error-handler-impl-flow" />
+    </flow>
+    <flow name="get:\IncheckReport:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="get-incheckReport-impl-flow" doc:id="3cfe1a0e-ed6f-4ba4-a8ce-5c9a557de9f2" name="get-incheckReport-impl-flow" />
+    </flow>
+    <flow name="get:\Products:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="get-products-impl-flow" doc:id="fed58b5e-ed7c-4765-a5e7-b52456167304" name="get-products-impl-flow" />
+    </flow>
+    <flow name="get:\formulators:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="get-formulators-impl-flow" doc:id="fd1717e4-c8ca-41a9-830f-040928c746f3" name="get-formulators-impl-flow" />
+    </flow>
+    <flow name="get:\userOrganizations:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="get-userOrganizations-impl-flow" doc:id="2e0ba8dd-a904-4fa5-9862-b2421ebb4810" name="get-userOrganizations-impl-flow" />
+    </flow>
+    <flow name="post:\formulators:application\json:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="post-formulators-impl-flow" doc:id="0a4ae33c-fa56-4f49-b19e-be4d146e2c1b" name="post-formulators-impl-flow" />
+    </flow>
+    <flow name="post:\renewInCheckSubscription:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="post-renewInCheckSubscription-impl-flow" doc:id="302f6b6e-e7cf-4da5-84e4-edc010062996" name="post-renewInCheckSubscription-impl-flow" />
+    </flow>
+    <flow name="post:\oauth\tokenbykey:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="oauth-tokenbykey-impl-flow" doc:id="7c190d62-3d8e-4b5d-8369-1be2fd1f8c69" name="oauth-tokenbykey-impl-flow" />
+    </flow>
+    <flow name="get:\subscriptionStatus:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="get-subscriptionstatus-impl-flow" doc:id="54b6e580-c6d3-4770-97f5-cd0a8d159653" name="get-subscriptionstatus-impl-flow" />
+    </flow>
+    <flow name="get:\incheckReport:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="get-incheckReport-impl-flow" doc:id="dd193398-0eb8-4cf8-8aec-ef0b8e718071" name="get-incheckReport-impl-flow" />
+    </flow>
+    <flow name="get:\products:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="get-products-impl-flow" doc:id="c6201bcf-7e80-4012-b51c-acf13cebdb52" name="get-products-impl-flow" />
+    </flow>
+    <flow name="post:\activateInCheckSubscription:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="post-incheckReport-impl-flow" doc:id="e3f3becf-5bfc-4134-9f0f-f66f9de0a7ff" name="post-activateInCheckSubscription-impl-flow" />
+    </flow>
+    <flow name="post:\incheckReport:application\json:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="post-incheckReport-impl-flow" doc:id="e464cc74-e9a5-498c-b52b-5ef3c524aac3" name="post-incheckReport-impl-flow" />
+    </flow>
+    <flow name="post:\products:application\json:itrk-s-api-zdhc-config">
+        <flow-ref doc:name="post-products-impl-flow" doc:id="b820dd88-976f-4d48-ad47-ab47c33301ff" name="post-products-impl-flow" />
+    </flow>
+</mule>

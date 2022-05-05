@@ -1,0 +1,8 @@
+{
+  "result": {
+    "success": true,
+    "errorMessage": "string"
+  },
+  "incheckReport": "string",
+  "verificationId": "string"
+}

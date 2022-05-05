@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:customLogger="http://www.mulesoft.org/schema/mule/customLogger"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/customLogger http://www.mulesoft.org/schema/mule/customLogger/current/mule-customLogger.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	 <http:listener-config name="itrk-s-api-zdhc-http-Listener" doc:description="zdhc Listner configuration">
+        <http:listener-connection host="${https.host}" port="${https.private.port}" protocol="HTTPS">
+			<tls:context >
+				<tls:key-store type="jks" path="${keystore.filepath}" alias="mule" keyPassword="${secure::keystore.password}" password="${secure::keystore.password}" />
+			</tls:context>
+		</http:listener-connection>
+    </http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="c67027f0-46a1-4a56-9b86-df11cd4586d8" file="config\common-properties.yaml" doc:description="common properties"/>
+	<configuration-properties doc:name="Configuration properties" doc:id="b261b17d-0fc3-4096-91b4-f9aaeac13db4" file="config/${env}-properties.yaml" doc:description="env specific properties"/>
+	<global-property doc:name="Global Property" doc:id="f6038d37-8d71-4b2c-a897-95f8a2582854" name="env" value="prod" doc:description="env configuration"/>
+	<global-property doc:name="Global Property" doc:id="79365699-c834-4499-9d0a-92b4a6695d14" name="encryption.key" value="Mulesoft@itrk123" doc:description="encryption key"/>
+	<http:request-config name="Token_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="10798bc3-d161-42a0-acfc-95adb15c4fde" basePath="${token.basepath}" doc:description="Token HTTP requester configuration">
+		<http:request-connection protocol="HTTPS" host="${token.host}" >
+			<tls:context >
+				<tls:trust-store path="${token.tspath}" password="${secure::token.password}" type="jks" />
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="17b3027a-ddc8-4061-9dc4-3962ade36c59" file="config/${env}-properties.yaml" key="${encryption.key}" />
+	<secure-properties:config name="Secure_Properties_Config1" doc:name="Secure Properties Config" doc:id="09941fcb-cafc-4bc5-8463-e60522920329" file="config\common-properties.yaml" key="${encryption.key}" />
+	<customLogger:config name="Custom_Logger_Config" doc:name="Custom Logger Config" doc:id="aab0b071-4daf-42ea-b4e8-809b36c429e5" />
+	<http:request-config name="ZDHC_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="b9a83373-4fa1-4ac6-8a1e-067c4438c6b8" basePath="${ZDHC.basepath}" responseTimeout="${response.timeout}">
+		<http:request-connection protocol="HTTPS" host="${token.host}" connectionIdleTimeout="${idle.timeout}">
+			<tls:context >
+				<tls:trust-store path="${token.tspath}" password="${secure::token.password}" type="jks" />
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+	<http:request-config name="ZDHC_HTTP_Request_incheck_config" doc:name="HTTP Request configuration" doc:id="98e13136-1ac0-45b4-84af-a2c8f7f7836a" basePath="${incheck.basepath}" responseTimeout="${response.timeout}">
+		<http:request-connection protocol="HTTPS" host="${token.host}" >
+			<tls:context >
+				<tls:trust-store path="${token.tspath}" password="${secure::token.password}" type="jks" />
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="eded0f99-5875-4ada-b3a2-b6ce4adab87c" />
+	<import doc:name="Import" doc:id="899836a7-9e77-4acf-a8fe-0d2327c531b2" doc:description="Mule common error handling utility flow" file="mule-common-error-handling-utility.xml" />
+	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="e5b6bde9-4b41-44da-b975-d6f8a6825d80" flowRef="itrk-s-api-zdhc-main" />
+	
+	
+	
+	
+</mule>

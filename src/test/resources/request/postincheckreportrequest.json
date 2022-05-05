@@ -1,0 +1,14 @@
+{
+  "OrganizationGUID": "string",
+  "version": "string",
+  "month": 0,
+  "year": 0,
+  "type": 0,
+  "inventory": [
+    {
+      "productGUID": "string",
+       "weight": 0.1,
+      "unit": "string"
+    }
+  ]
+}

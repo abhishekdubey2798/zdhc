@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:customLogger="http://www.mulesoft.org/schema/mule/customLogger" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/customLogger http://www.mulesoft.org/schema/mule/customLogger/current/mule-customLogger.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	
+	<sub-flow name="oauth-tokenbykey-impl-flow" doc:id="1f4e3375-774a-475d-a163-fb089a8690cc" >
+		<customLogger:start doc:name="Start" doc:id="492c28d1-241f-450a-b3d6-2851eb7df434" config-ref="Custom_Logger_Config" message="oauth tokenbykey impl flow started">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<ee:transform doc:name="Transform Message" doc:id="c244896b-080e-4ae6-a05b-14ef3dfeaeef" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+"authenticationKey": p('secure::token.authenticationKey'),
+"UserAccessKey" : attributes.queryParams.UserAccessKey
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<customLogger:before-transformation doc:name="Before Operation" doc:id="9a8f0fb6-04c7-4c81-85d0-bb33772f715e" config-ref="Custom_Logger_Config" message="oauth tokenbykey request body" level="DEBUG"/>
+		<http:request method="POST" doc:name="oauth_tokenbykey " doc:id="f4987c53-bbd3-4193-8f54-6a4b0794f95b" config-ref="Token_HTTP_Request_configuration" path="${token.path}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="dedaa39f-52ea-42ba-88d4-7e927795d06b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="c6945276-804c-42a6-a81f-1a3294d8f6e9" config-ref="Custom_Logger_Config" message="access token retrieved successfully" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="8376fd73-5ff4-4332-bd5a-ec37ca0ea132" config-ref="Custom_Logger_Config" message="oauth tokenbykey impl flow end"/>
+	</sub-flow>
+	<sub-flow name="get-subscriptionstatus-impl-flow" doc:id="e3dd56d3-6839-4932-9fc5-64815bbc06a2" >
+		<customLogger:start doc:name="Start" doc:id="77c4f07e-85d2-4a34-9f36-e7f6410cd02f" config-ref="Custom_Logger_Config" message="get subscriptionStatus impl flow started">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="100b216a-c0c6-455a-9e99-b3147143d6d0" variableName="accessToken"/>
+		<set-variable value="#[attributes.queryParams.organizationGUID]" doc:name="OrganizationGUID" doc:id="9789dc01-cfe3-4dde-a578-2a7810934767" variableName="OrganizationGUID"/>
+		<http:request method="GET" doc:name="subscriptionstatus" doc:id="eef993b5-5ae3-4ab8-8717-70ba80616be1" config-ref="ZDHC_HTTP_Request_configuration" path="${subscriptionStatus.path}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"OrganizationGUID" : vars.OrganizationGUID
+}]]]></http:query-params>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="d7a9f9ba-2d9a-492d-9eea-7d6219e5384f" config-ref="Custom_Logger_Config" message="get subscriptionStatus response payload" level="DEBUG"/>
+		<logger level="INFO" doc:name="Logger" doc:id="034deb3b-aea9-4372-9252-431ba653ce89" message="#[payload] get subscriptionStatus payload"/>
+		<customLogger:end doc:name="End" doc:id="c87c3393-5081-482e-ac8e-23b33a8a2e8a" config-ref="Custom_Logger_Config" message="get subscriptionStatus flow end"/>
+	</sub-flow>
+	<sub-flow name="post-activateInCheckSubscription-impl-flow" doc:id="f6379a51-24a7-4bb5-bbc1-a1558d68fe37" >
+		<customLogger:start doc:name="Start" doc:id="aaa4a2aa-92ac-41a1-b73f-db925bb95da5" config-ref="Custom_Logger_Config" message="post-activateInCheckSubcription-impl-flow">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="67f11663-4ce6-4daa-b555-ef100b44bcab" variableName="accessToken"/>
+		<set-variable value="#[attributes.queryParams.organizationGUID]" doc:name="OrganizationGUID" doc:id="0b405475-4f79-4cb5-a25b-c58a5f053726" variableName="OrganizationGUID"/>
+		<customLogger:before-transformation doc:name="Before Operation" doc:id="ee14b287-03f0-4d84-a970-81deb2b22c7f" config-ref="Custom_Logger_Config" message="post activateInCheckSubcription request payload" level="DEBUG"/>
+		<validation:is-not-null doc:id="e397377c-baa6-479f-8edf-9ac9447b8eb2" config-ref="Validation_Config" value="#[payload]"/>
+		<http:request method="POST" doc:name="activateInCheckSubcription" doc:id="34c316f1-7110-43a4-8abb-16012c2aff4f" config-ref="ZDHC_HTTP_Request_configuration" path="${activateInCheckSubscription.path}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"OrganizationGUID" : vars.OrganizationGUID
+}]]]></http:query-params>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="17f11e9f-d20d-4efa-b67a-33e1d9225aa2" config-ref="Custom_Logger_Config" message="post activateInCheckSubcription response payload" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="1ea8d21f-6178-4ae8-9215-ae5eee0d90cc" config-ref="Custom_Logger_Config" message="post activateInCheckSubcription impl flow end"/>
+	</sub-flow>
+	<sub-flow name="post-renewInCheckSubscription-impl-flow" doc:id="b3398235-3274-45a0-b779-ab1ebfd16c2d" >
+		<customLogger:start doc:name="Start" doc:id="3ea87f08-46c2-432c-a127-76e242830353" config-ref="Custom_Logger_Config" message="post renewInCheckSubscription impl flow started">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="14d4edc3-78f0-4aae-81f4-68afe178de4c" variableName="accessToken"/>
+		<set-variable value="#[attributes.queryParams.organizationGUID]" doc:name="OrganizationGUID" doc:id="82b726d3-5719-40e2-a9c3-12c839c91e0e" variableName="OrganizationGUID"/>
+		<customLogger:before-transformation doc:name="Before Operation" doc:id="85ac5ef6-6913-4084-a4d1-fad2d9805a4a" config-ref="Custom_Logger_Config" message="post renewInCheckSubscription request payload" level="DEBUG"/>
+		<validation:is-not-null doc:name="Is not null" doc:id="b284fe6b-ad98-4835-a42b-a0d6f0236521" config-ref="Validation_Config" value="#[payload]"/>
+		<http:request method="POST" doc:name="renewInCheckSubscription" doc:id="0ccce54e-5969-4d55-a9d9-f0e0d22a6071" config-ref="ZDHC_HTTP_Request_configuration" path="${renewInCheckSubscription.path}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"OrganizationGUID" : vars.OrganizationGUID
+}]]]></http:query-params>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="e2a18ab5-5968-468c-87c5-95bdcbd660e9" config-ref="Custom_Logger_Config" message="post renewInCheckSubscription response payload" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="c75ac477-74af-4107-9157-8f5e02e51ba4" config-ref="Custom_Logger_Config" message="post renewInCheckSubscription flow end"/>
+	</sub-flow>
+	<sub-flow name="get-userOrganizations-impl-flow" doc:id="339dd6b7-d8e8-47e1-ad89-6cca235f4e91" >
+		<customLogger:start doc:name="Start" doc:id="b097a2b2-4c1a-4a8e-80cf-e0d2bc8221cf" config-ref="Custom_Logger_Config" message="get userOrganizations impl flow started">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="49c16c4f-61be-4d6c-b1ea-c0e77a31fd29" variableName="accessToken"/>
+		<http:request method="GET" doc:name="userOrganizations" doc:id="67263908-ae25-4a5a-b8ef-f21878309ac0" config-ref="ZDHC_HTTP_Request_configuration" path="${userOrganizations.path}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="0e930b63-9312-4b57-a9bf-46fc5522fffc" config-ref="Custom_Logger_Config" message="get userOrganizations response payload" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="ddc1c817-3c87-4b7d-a0db-93dafc5ed2d3" config-ref="Custom_Logger_Config" message="get userOrganizations flow end"/>
+	</sub-flow>
+	<sub-flow name="get-formulators-impl-flow" doc:id="a7328220-e506-4052-ba0b-baf23ad515af" >
+		<customLogger:start doc:name="Start" doc:id="034b8b4a-3d54-4d35-a0a0-950c5f789391" config-ref="Custom_Logger_Config" message="get formulators impl flow started">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="1d7132f8-c7d8-4a97-af1f-4f59cee5210d" variableName="accessToken"/>
+		<ee:transform doc:name="formulators queryParameters" doc:id="ef584f7f-f2cc-4011-b070-d7720b9c2df3" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="search" ><![CDATA[attributes.queryParams.search]]></ee:set-variable>
+				<ee:set-variable variableName="organizationGUID" ><![CDATA[attributes.queryParams.organizationGUID]]></ee:set-variable>
+				<ee:set-variable variableName="startIndex" ><![CDATA[attributes.queryParams.startIndex]]></ee:set-variable>
+				<ee:set-variable variableName="recordLimit" ><![CDATA[attributes.queryParams.recordLimit]]></ee:set-variable>
+				<ee:set-variable variableName="supplierAID" ><![CDATA[attributes.queryParams.supplierAID]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="GET" doc:name="get formulators" doc:id="302207ea-8eca-4d2b-89cb-62a6830ab51d" config-ref="ZDHC_HTTP_Request_configuration" path="${formulators.getpath}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"startIndex" : vars.startIndex,
+	"search" : vars.search,
+	"supplierAID" : vars.supplierAID,
+	"organizationGUID" : vars.organizationGUID,
+	"recordLimit" : vars.recordLimit
+}]]]></http:query-params>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="71e31139-c0f9-44f5-afc0-79636ae33cc2" message="get formulators response payload" config-ref="Custom_Logger_Config" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="5b90ac74-9b70-4e67-bab0-2ad530a3b57f" config-ref="Custom_Logger_Config" message="get formulators flow end"/>
+	</sub-flow>
+	<sub-flow name="post-formulators-impl-flow" doc:id="6564735a-ee63-48c3-bba9-5b495f9522b7" >
+		<customLogger:start doc:name="Start" doc:id="f34beebf-b000-4393-a32f-d7de40903791" message="post formulators impl flow start">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.queryParams.accessToken]" doc:name="accessToken" doc:id="bc5448a3-8799-4ae1-aefd-d541ac62714a" variableName="accessToken"/>
+		<validation:is-not-null doc:name="Is not null" doc:id="5ba1e4eb-8e34-408b-bb59-c1e5aa1a7b9f" config-ref="Validation_Config" value="#[payload]"/>
+		<customLogger:before-transformation doc:name="Before Operation" doc:id="c489dc87-3c91-4ee9-8cd1-aa7f8134440e" config-ref="Custom_Logger_Config" message="post formulators request payload" level="DEBUG"/>
+		<choice doc:name="Choice" doc:id="409e9ee3-aa88-40e8-8f40-0199b825f6bd" >
+			<when expression="#[payload.name != null and payload.country != null]">
+				<http:request method="POST" doc:name="Request" doc:id="12497b2e-cbb1-421d-9018-1688871682a6" config-ref="ZDHC_HTTP_Request_configuration" path="${formulators.postpath}">
+					<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:query-params>
+				</http:request>
+				<customLogger:after-transformation doc:name="After Operation" doc:id="cfce8d44-6730-46a2-a48d-649c38465a6e" config-ref="Custom_Logger_Config" message="post formulators response payload" level="DEBUG"/>
+			</when>
+			<otherwise >
+				<customLogger:end doc:name="End" doc:id="5ab3f225-0234-44c5-b4c1-3ddc6b9394a9" config-ref="Custom_Logger_Config" message="required parameter name,country missing in the body"/>
+			</otherwise>
+		</choice>
+		<customLogger:end doc:name="End" doc:id="e17d092d-7a03-4c07-8c41-f599eb290934" config-ref="Custom_Logger_Config" message="post formulators flow end"/>
+	</sub-flow>
+	<sub-flow name="post-incheckReport-impl-flow" doc:id="f402dba4-996c-4fee-8ef3-32070db7f7c6" >
+		<customLogger:start doc:name="Start" doc:id="ee2507d9-9a4c-4433-b0d0-30ae1ba83adb" config-ref="Custom_Logger_Config" message="post incheckReport impl flow start">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="349ffb34-2de7-4bd0-ae24-6be4416ba878" variableName="accessToken"/>
+		<validation:is-not-null doc:name="Is not null" doc:id="eaea5a10-4636-4b22-9f33-c705fac542a8" config-ref="Validation_Config" value="#[payload]"/>
+		<customLogger:before-transformation doc:name="Before Operation" doc:id="e113481f-e249-442d-93a6-46d704d21ac6" config-ref="Custom_Logger_Config" message="post incheckReport request payload" level="DEBUG"/>
+		<http:request method="POST" doc:name="Request" doc:id="2a91a290-eefc-42d5-934e-8e8eeadd97c9" config-ref="ZDHC_HTTP_Request_incheck_config" path="${incheckReport.postpath}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="7190930a-edc5-4763-b33b-f9d64a28109f" config-ref="Custom_Logger_Config" message="post incheckReport response payload" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="1b09a8de-df55-4434-a6ad-33021327d6ba" config-ref="Custom_Logger_Config" message="post incheckReport flow end"/>
+	</sub-flow>
+	<sub-flow name="get-products-impl-flow" doc:id="376594ab-5681-4f86-9dde-c122de4363bc" >
+		<customLogger:start doc:name="Start" doc:id="b81819ff-eb39-4d18-b5fa-ae183507b5b1" config-ref="Custom_Logger_Config" message="get products impl flow start">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="4c03d954-bef9-4c58-a469-9e9d769bf877" variableName="accessToken"/>
+		<ee:transform doc:name="Transform Message" doc:id="d578ddc2-e8c6-4c75-8b02-f261c49843bb" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="search" ><![CDATA[attributes.queryParams.search]]></ee:set-variable>
+				<ee:set-variable variableName="productId" ><![CDATA[attributes.queryParams.productId]]></ee:set-variable>
+				<ee:set-variable variableName="startIndex" ><![CDATA[attributes.queryParams.startIndex]]></ee:set-variable>
+				<ee:set-variable variableName="recordLimit" ><![CDATA[attributes.queryParams.recordLimit]]></ee:set-variable>
+				<ee:set-variable variableName="productGUID" ><![CDATA[attributes.queryParams.productGUID]]></ee:set-variable>
+				<ee:set-variable variableName="OtherName" ><![CDATA[attributes.queryParams.OtherName]]></ee:set-variable>
+				<ee:set-variable variableName="FormulatorName" ><![CDATA[attributes.queryParams.FormulatorName]]></ee:set-variable>
+				<ee:set-variable variableName="CertificationID" ><![CDATA[attributes.queryParams.CertificationID]]></ee:set-variable>
+				<ee:set-variable variableName="Source" ><![CDATA[attributes.queryParams.Source]]></ee:set-variable>
+				<ee:set-variable variableName="OrganizationGUID" ><![CDATA[attributes.queryParams.OrganizationGUID]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="GET" doc:name="Request" doc:id="386f9376-8849-4e92-99d7-1162b99d9104" config-ref="ZDHC_HTTP_Request_configuration" path="${products.getpath}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"startIndex" : vars.startIndex,
+	"search" : vars.search,
+	"productGUID" : vars.productGUID,
+	"OtherName" : vars.OtherName,
+	"productId" : vars.productId,
+	"FormulatorName" : vars.FormulatorName,
+	"OrganizationGUID" : vars.OrganizationGUID,
+	"Source" : vars.Source,
+	"recordLimit" : vars.recordLimit,
+	"CertificationID" : vars.CertificationID
+}]]]></http:query-params>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="40df2536-083d-407b-8a29-fc7e57607637" config-ref="Custom_Logger_Config" message="get products response payload" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="708eb21a-c087-46cd-962e-23c2d5ecac7a" config-ref="Custom_Logger_Config" message="get products flow end"/>
+	</sub-flow>
+	<sub-flow name="post-products-impl-flow" doc:id="807f4ca4-9b13-4cb0-bb34-6ff23e836aac" >
+		<customLogger:start doc:name="Start" doc:id="a5052494-e51e-4b01-864f-e97ad50ffb41" config-ref="Custom_Logger_Config" message="post products impl flow start">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="846f99d2-ee7b-4c20-9347-e5b0f300a549" variableName="accessToken"/>
+		<validation:is-not-null doc:name="Is not null" doc:id="5044d26d-05d3-42c0-b3d5-375969f09f25" config-ref="Validation_Config" value="#[payload]"/>
+		<customLogger:before-transformation doc:name="Before Operation" doc:id="8b2d9a5e-308b-489f-90d8-a011d4ef0a01" config-ref="Custom_Logger_Config" message="post products request payload" level="DEBUG"/>
+		<http:request method="POST" doc:name="Request" doc:id="4821ba6e-4bfc-493d-81fe-65269c69a6bd" config-ref="ZDHC_HTTP_Request_configuration" path="${products.postpath}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="1df34db5-48b7-4053-b3e5-750a7d0d2de3" config-ref="Custom_Logger_Config" message="post products response payload" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="aef8ea69-9f8f-4213-9dc2-9d6ed7f9e57f" config-ref="Custom_Logger_Config" message="post products impl flow end"/>
+	</sub-flow>
+	<sub-flow name="get-incheckReport-impl-flow" doc:id="d4d7f35f-f6eb-4ebb-8d4b-1517dd27bb28" >
+		<customLogger:start doc:name="Start" doc:id="4a003415-6922-4a5e-8d8a-0f0720ae1941" config-ref="Custom_Logger_Config" message="get incheckReport flow start">
+			<customLogger:attributes ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "requestPath" : attributes.rawRequestPath,
+  "method" : attributes.method,
+  "Content-Type" : attributes.headers."content-type"
+}]]]></customLogger:attributes>
+		</customLogger:start>
+		<set-variable value="#[attributes.headers.accessToken]" doc:name="accessToken" doc:id="46a45454-265a-4813-970a-b9c1943ce6e0" variableName="accessToken"/>
+		<set-variable value="#[attributes.queryParams.reportId]" doc:name="reportId" doc:id="693f430e-7471-40aa-9c5f-fc230eb00bee" variableName="reportId"/>
+		<http:request method="GET" doc:name="Request" doc:id="16d3792c-faca-4738-b7d9-1acb064033db" config-ref="ZDHC_HTTP_Request_incheck_config" path="${incheckReport.getpath}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"accessToken" : vars.accessToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"reportId" : vars.reportId
+}]]]></http:query-params>
+		</http:request>
+		<customLogger:after-transformation doc:name="After Operation" doc:id="361fac1c-3d6d-451f-8098-31dd383f5d99" config-ref="Custom_Logger_Config" message="get incheckReport response payload" level="DEBUG"/>
+		<customLogger:end doc:name="End" doc:id="1e7b1c9a-e17c-4f75-8b09-e5d443d2a717" config-ref="Custom_Logger_Config" message="get incheckReport flow end"/>
+	</sub-flow>
+</mule>
